@@ -82,7 +82,9 @@ const KanbanColumn = ({
             flexDirection: "column",
             gap: "8px",
           }}
-        ></div>
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

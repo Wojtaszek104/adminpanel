@@ -22,27 +22,11 @@ import CustomAvatar from "@/components/layout/custom-avatar";
 type Contact = GetFieldsFromList<CompanyContactsTableQuery>;
 
 export const CompanyContactsTable = () => {
-  // get params from the url
   const params = useParams();
-
-  /**
-   * Refine offers a TanStack Table adapter with @refinedev/react-table that allows us to use the TanStack Table library with Refine.
-   * All features such as sorting, filtering, and pagination come out of the box
-   * Under the hood it uses useList hook to fetch the data.
-   * https://refine.dev/docs/packages/tanstack-table/use-table/#installation
-   */
   const { tableProps } = useTable<Contact>({
-    // specify the resource for which the table is to be used
     resource: "contacts",
     syncWithLocation: false,
-    // specify initial sorters
     sorters: {
-      /**
-       * initial sets the initial value of sorters.
-       * it's not permanent
-       * it will be cleared when the user changes the sorting
-       * https://refine.dev/docs/ui-integrations/ant-design/hooks/use-table/#sortersinitial
-       */
       initial: [
         {
           field: "createdAt",
@@ -50,12 +34,7 @@ export const CompanyContactsTable = () => {
         },
       ],
     },
-    // specify initial filters
     filters: {
-      /**
-       * similar to initial in sorters
-       * https://refine.dev/docs/ui-integrations/ant-design/hooks/use-table/#filtersinitial
-       */
       initial: [
         {
           field: "jobTitle",
@@ -73,10 +52,6 @@ export const CompanyContactsTable = () => {
           operator: "in",
         },
       ],
-      /**
-       * permanent filters are the filters that are always applied
-       * https://refine.dev/docs/ui-integrations/ant-design/hooks/use-table/#filterspermanent
-       */
       permanent: [
         {
           field: "company.id",
@@ -85,12 +60,7 @@ export const CompanyContactsTable = () => {
         },
       ],
     },
-    /**
-     * used to provide any additional information to the data provider.
-     * https://refine.dev/docs/data/hooks/use-form/#meta-
-     */
     meta: {
-      // gqlQuery is used to specify the GraphQL query that should be used to fetch the data.
       gqlQuery: COMPANY_CONTACTS_TABLE_QUERY,
     },
   });
@@ -108,12 +78,10 @@ export const CompanyContactsTable = () => {
           <Text>Contacts</Text>
         </Space>
       }
-      // property used to render additional content in the top-right corner of the card
       extra={
         <>
           <Text className="tertiary">Total contacts: </Text>
           <Text strong>
-            {/* if pagination is not disabled and total is provided then show the total */}
             {tableProps?.pagination !== false && tableProps.pagination?.total}
           </Text>
         </>
@@ -124,7 +92,7 @@ export const CompanyContactsTable = () => {
         rowKey="id"
         pagination={{
           ...tableProps.pagination,
-          showSizeChanger: false, // hide the page size changer
+          showSizeChanger: false,
         }}
       >
         <Table.Column<Contact>
@@ -142,9 +110,7 @@ export const CompanyContactsTable = () => {
               </Text>
             </Space>
           )}
-          // specify the icon that should be used for filtering
           filterIcon={<SearchOutlined />}
-          // render the filter dropdown
           filterDropdown={(props) => (
             <FilterDropdown {...props}>
               <Input placeholder="Search Name" />
@@ -164,14 +130,12 @@ export const CompanyContactsTable = () => {
         <Table.Column<Contact>
           title="Stage"
           dataIndex="status"
-          // render the status tag for each contact
           render={(_, record) => <ContactStatusTag status={record.status} />}
-          // allow filtering by selecting multiple status options
           filterDropdown={(props) => (
             <FilterDropdown {...props}>
               <Select
                 style={{ width: "200px" }}
-                mode="multiple" // allow multiple selection
+                mode="multiple"
                 placeholder="Select Stage"
                 options={statusOptions}
               ></Select>

@@ -28,27 +28,17 @@ import { UPDATE_TASK_MUTATION } from "@/graphql/mutations";
 const TasksEditPage = () => {
   const [activeKey, setActiveKey] = useState<string | undefined>();
 
-  // use the list method to navigate to the list page of the tasks resource from the navigation hook
   const { list } = useNavigation();
 
-  // create a modal form to edit a task using the useModalForm hook
-  // modalProps -> It's an instance of Modal that manages modal state and actions like onOk, onCancel, etc.
-  // close -> It's a function that closes the modal
-  // queryResult -> It's an instance of useQuery from react-query
   const { modalProps, close, queryResult } = useModalForm<Task>({
-    // specify the action to perform i.e., create or edit
     action: "edit",
-    // specify whether the modal should be visible by default
     defaultVisible: true,
-    // specify the gql mutation to be performed
     meta: {
       gqlMutation: UPDATE_TASK_MUTATION,
     },
   });
 
-  // get the data of the task from the queryResult
   const { description, dueDate, users, title } = queryResult?.data?.data ?? {};
-
   const isLoading = queryResult?.isLoading ?? true;
 
   return (
@@ -72,10 +62,7 @@ const TasksEditPage = () => {
         </DeleteButton>
       }
     >
-      {/* Render the stage form */}
       <StageForm isLoading={isLoading} />
-
-      {/* Render the description form inside an accordion */}
       <Accordion
         accordionKey="description"
         activeKey={activeKey}
@@ -90,8 +77,6 @@ const TasksEditPage = () => {
           cancelForm={() => setActiveKey(undefined)}
         />
       </Accordion>
-
-      {/* Render the due date form inside an accordion */}
       <Accordion
         accordionKey="due-date"
         activeKey={activeKey}
@@ -106,8 +91,6 @@ const TasksEditPage = () => {
           cancelForm={() => setActiveKey(undefined)}
         />
       </Accordion>
-
-      {/* Render the users form inside an accordion */}
       <Accordion
         accordionKey="users"
         activeKey={activeKey}

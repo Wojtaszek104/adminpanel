@@ -4,7 +4,6 @@ import { Text } from "../layout/text";
 import { getDate } from "@/utilities/helpers";
 import { useList } from "@refinedev/core";
 import { DASHBORAD_CALENDAR_UPCOMING_EVENTS_QUERY } from "@/graphql/queries";
-import dayjs from "dayjs";
 import { useState } from "react";
 
 const UpcommingEvents = () => {
@@ -17,13 +16,6 @@ const UpcommingEvents = () => {
       {
         field: "startDate",
         order: "asc",
-      },
-    ],
-    filters: [
-      {
-        field: "startDate",
-        operator: "gte",
-        value: dayjs().format("YYYY-MM-DD"),
       },
     ],
     meta: {

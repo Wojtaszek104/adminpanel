@@ -15,6 +15,9 @@ const KanbanItem = ({ children, id, data }: React.PropsWithChildren<Props>) => {
     id,
     data,
   });
+
+  console.log(children);
+
   return (
     <div style={{ position: "relative" }}>
       <div
@@ -41,6 +44,7 @@ const KanbanItem = ({ children, id, data }: React.PropsWithChildren<Props>) => {
             </div>
           </DragOverlay>
         )}
+        {children}
       </div>
     </div>
   );
